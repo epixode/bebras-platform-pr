@@ -1,0 +1,7 @@
+{
+  "name": "platform-pr",
+  "version": "1.0",
+  "license": "MIT",
+  "ignore": ["**/.*"],
+  "main": "platform-pr.js"
+}
