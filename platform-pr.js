@@ -1,4 +1,5 @@
 'use strict';
+define(['jquery-deparam', 'jquery-postmessage'], function () {
 
 function isCrossDomain() {
    function isInIframe() {
@@ -27,7 +28,7 @@ if ( ! isCrossDomain()) {
     * platform object.
     */
 
-   var platform = {
+   return {
       registered_objects : [],
       parent_platform : null,
       setPlatform: function(platformArg) {
@@ -68,7 +69,7 @@ if ( ! isCrossDomain()) {
       }
    };
 
-} else {
+}
 
    /*
     * Platform proxy implementation for Bebras task API - v1.0 - 08/2014
@@ -80,9 +81,6 @@ if ( ! isCrossDomain()) {
     *
     * This file implements a postMessage listener so that calls coming from
     * task-proxy-xd.js land on the task object.
-    *
-    * It depends on jQuery but contains a minified version of jQuery.ba-postmessage
-    * and jQuery.deparam.
     *
     */
 
@@ -347,7 +345,7 @@ if ( ! isCrossDomain()) {
    /**
     * Platform interface as if it is direclty available
     */
-   platform = {
+   return {
       registered_objects : [],
       taskParams : null,
       trigger: function(event, content) {
@@ -396,35 +394,4 @@ if ( ! isCrossDomain()) {
       }
    };
 
-   // deparam.min.js (https://github.com/chrissrogers/jquery-deparam), modified to check if integer is in bounds
-   (function(h){h.deparam=function(i,j){var d={},k={"true":!0,"false":!1,"null":null};h.each(i.replace(/\+/g," ").split("&"),function(i,l){var m;var a=l.split("="),c=decodeURIComponent(a[0]),g=d,f=0,b=c.split("]["),e=b.length-1;/\[/.test(b[0])&&/\]$/.test(b[e])?(b[e]=b[e].replace(/\]$/,""),b=b.shift().split("[").concat(b),e=b.length-1):e=0;if(2===a.length)if(a=decodeURIComponent(a[1]),j&&(a=a&&!isNaN(a)&&parseInt(a).toString===a?+a:"undefined"===a?void 0:void 0!==k[a]?k[a]:a),e)for(;f<=e;f++)c=""===b[f]?g.length:b[f],m=g[c]=
-   f<e?g[c]||(b[f+1]&&isNaN(b[f+1])?{}:[]):a,g=m;else h.isArray(d[c])?d[c].push(a):d[c]=void 0!==d[c]?[d[c],a]:a;else c&&(d[c]=j?void 0:"")});return d}})(jQuery);
-
-   /*!
-    * jQuery postMessage - v0.5 - 9/11/2009
-    * http://benalman.com/projects/jquery-postmessage-plugin/
-    *
-    * Copyright (c) 2009 "Cowboy" Ben Alman
-    * Dual licensed under the MIT and GPL licenses.
-    * http://benalman.com/about/license/
-    *
-    * Version from
-    * https://github.com/jkeys089/jquery-postmessage
-    */
-   (function($,f){var b,d,j=1,a,g=!1,h="postMessage",c="addEventListener",e,i=f[h];
-   $[h]=function(k,m,l){if(!m){return;}k=typeof k==="string"?k:$.param(k);l=l||parent;if(i){f.setTimeout(function(){l[h](k,m.replace(/([^:]+:\/\/[^\/]+).*/,"$1"));
-   },0);}else{if(m){l.location=m.replace(/#.*$/,"")+"#"+(+new Date)+(j++)+"&"+k;}}};$.receiveMessage=e=function(m,l,k){if(i){if(m){a&&e();a=function(n){if(n.domain){l=l.split("://")[1];
-   n.origin=n.domain;}if((typeof l==="string"&&n.origin!==l)||($.isFunction(l)&&l(n.origin)===g)){return g;}m(n);};}if(f[c]){f[m?c:"removeEventListener"]("message",a,g);
-   }else{f[m?"attachEvent":"detachEvent"]("onmessage",a);}}else{b&&clearInterval(b);b=null;if(m){k=typeof l==="number"?l:typeof k==="number"?k:100;b=setInterval(function(){var o=document.location.hash,n=/^#?\d+&/;
-   if(o!==d&&n.test(o)){d=o;m({data:o.replace(n,"")});}},k);}}};})(jQuery,window);
-
-   $(window).load(function() {
-      // Get the parent page URL as it was passed in, for browsers that don't support window.postMessage
-      var parent_url = decodeURIComponent(document.location.hash.replace(/^#/, ''));
-      sPlatform = decodeURIComponent((new RegExp('[?|&]sPlatform=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-      sToken = decodeURIComponent((new RegExp('[?|&]sToken=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-      if (parent_url) {
-         PmInterface.init(parent_url);
-      }
-   });
-}
+});
