@@ -1,5 +1,5 @@
 {
-  "name": "platform-pr",
+  "name": "bebras-platform-pr",
   "version": "1.0",
   "license": "MIT",
   "ignore": ["**/.*"],
